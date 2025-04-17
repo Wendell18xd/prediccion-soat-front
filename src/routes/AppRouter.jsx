@@ -1,32 +1,36 @@
 // src/routes/AppRouter.jsx
-import { BrowserRouter as Router, Routes, Route } from "react-router";
-import PrivateRoute from "./PrivateRoute";
+import { Routes, Route, Navigate } from "react-router";
 import { LoginPage } from "../pages/auth/LoginPage";
 import { HomePage } from "../pages/prediccion/HomePage";
 import { ReportsPage } from "../pages/prediccion/ReportsPage";
+import { useAuthStore } from "../hooks";
+import { useEffect } from "react";
 
-const AppRouter = () => (
-  <Router>
+export const AppRouter = () => {
+  const { status, checkAuthToken } = useAuthStore();
+
+  useEffect(() => {
+    checkAuthToken();
+  }, []);
+
+  if (status === "checking") {
+    return <h3>Cargando...</h3>;
+  }
+
+  return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route
-        path="/"
-        element={
-          <PrivateRoute>
-            <HomePage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/reportes"
-        element={
-          <PrivateRoute>
-            <ReportsPage />
-          </PrivateRoute>
-        }
-      />
+      {status === "not-authenticated" ? (
+        <>
+          <Route path="/auth/*" element={<LoginPage />} />
+          <Route path="/*" element={<Navigate to="/auth/login" />} />
+        </>
+      ) : (
+        <>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/reporte" element={<ReportsPage />} />
+          <Route path="/*" element={<Navigate to="/" />} />
+        </>
+      )}
     </Routes>
-  </Router>
-);
-
-export default AppRouter;
+  );
+};

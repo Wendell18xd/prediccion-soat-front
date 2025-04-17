@@ -1,4 +1,8 @@
+import { useAuthStore } from "../hooks";
+
 export const Navbar = () => {
+  const { startLogout, user } = useAuthStore();
+
   return (
     <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
       <div className="container-fluid">
@@ -30,8 +34,13 @@ export const Navbar = () => {
               </a>
             </li>
           </ul>
-          <div className="d-flex">
-            <button className="btn btn-danger my-2 my-sm-0" type="submit">
+          <div className="d-flex justify-content-center align-items-center">
+            <span className="me-2">{user.name}</span>
+            <button
+              className="btn btn-danger my-2 my-sm-0"
+              type="submit"
+              onClick={startLogout}
+            >
               Salir
             </button>
           </div>
