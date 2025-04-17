@@ -1,9 +1,9 @@
 // src/routes/AppRouter.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import PrivateRoute from "./PrivateRoute";
-import { LoginPage } from "../pages/LoginPage";
-import { HomePage } from "../pages/HomePage";
-import { ReportsPage } from "../pages/ReportsPage";
+import { LoginPage } from "../pages/auth/LoginPage";
+import { HomePage } from "../pages/prediccion/HomePage";
+import { ReportsPage } from "../pages/prediccion/ReportsPage";
 
 const AppRouter = () => (
   <Router>
