@@ -30,7 +30,7 @@ export const Navbar = () => {
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/reporte">
-                <i className="bi bi-bar-chart-fill me-1"></i>Reportes
+                <i className="bi bi-bar-chart-fill me-1"></i>Reporte
               </Link>
             </li>
           </ul>

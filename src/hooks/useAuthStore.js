@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
-import { clearErrorMessage, onChecking, onLogin, onLogout } from "../store"
 import { prediccionApi } from "../api"
+import { clearErrorMessage, onChecking, onLogin, onLogout } from "../store/auth/authSlice"
 
 export const useAuthStore = () => {
     const { status, user, errorMessage, isLoading } = useSelector((state) => state.auth)
