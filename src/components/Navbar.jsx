@@ -1,14 +1,15 @@
+import { Link } from "react-router";
 import { useAuthStore } from "../hooks";
 
 export const Navbar = () => {
   const { startLogout, user } = useAuthStore();
 
   return (
-    <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-          Predicción SOAT
-        </a>
+        <Link className="navbar-brand fw-bold" to="/">
+          <i className="bi bi-shield-fill-check me-2"></i>Predicción SOAT
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -21,27 +22,29 @@ export const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarColor01">
-          <ul className="navbar-nav me-auto">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" href="#">
-                Dashboard
-                <span className="visually-hidden">(current)</span>
-              </a>
+              <Link className="nav-link active" to="/">
+                <i className="bi bi-house-door-fill me-1"></i>Dashboard
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                Reportes
-              </a>
+              <Link className="nav-link" to="/reporte">
+                <i className="bi bi-bar-chart-fill me-1"></i>Reportes
+              </Link>
             </li>
           </ul>
-          <div className="d-flex justify-content-center align-items-center">
-            <span className="me-2">{user.name}</span>
+          <div className="d-flex align-items-center">
+            <span className="text-white fw-bold me-3">
+              <i className="bi bi-person-circle me-1"></i>
+              {user.name}
+            </span>
             <button
-              className="btn btn-danger my-2 my-sm-0"
-              type="submit"
+              className="btn btn-outline-danger btn-sm"
+              type="button"
               onClick={startLogout}
             >
-              Salir
+              <i className="fa-solid fa-right-from-bracket me-2"></i>Salir
             </button>
           </div>
         </div>

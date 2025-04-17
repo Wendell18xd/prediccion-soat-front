@@ -1,5 +1,10 @@
+import { Navbar } from "../../components/Navbar";
+
 export const ReportsPage = () => {
   return (
-    <div>ReportsPage</div>
-  )
-}
+    <>
+      <Navbar />
+      <div>ReportsPage</div>
+    </>
+  );
+};

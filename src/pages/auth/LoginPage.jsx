@@ -64,6 +64,18 @@ export const LoginPage = () => {
             />
           </div>
 
+          <div className="form-check mb-4">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="rememberMe"
+              name="rememberMe"
+            />
+            <label className="form-check-label" htmlFor="rememberMe">
+              Recordar correo y contraseña
+            </label>
+          </div>
+
           {isLoading ? (
             <button className="btn btn-primary w-100" disabled>
               <span

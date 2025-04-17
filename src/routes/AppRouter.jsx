@@ -5,6 +5,7 @@ import { HomePage } from "../pages/prediccion/HomePage";
 import { ReportsPage } from "../pages/prediccion/ReportsPage";
 import { useAuthStore } from "../hooks";
 import { useEffect } from "react";
+import { Loading } from "../components/Loading";
 
 export const AppRouter = () => {
   const { status, checkAuthToken } = useAuthStore();
@@ -14,7 +15,7 @@ export const AppRouter = () => {
   }, []);
 
   if (status === "checking") {
-    return <h3>Cargando...</h3>;
+    return <Loading />;
   }
 
   return (
