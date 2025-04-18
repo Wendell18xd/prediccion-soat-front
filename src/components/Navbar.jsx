@@ -1,8 +1,9 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useAuthStore } from "../hooks";
 
 export const Navbar = () => {
   const { startLogout, user } = useAuthStore();
+  const { pathname } = useLocation();
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
@@ -24,12 +25,20 @@ export const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarColor01">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" to="/">
+              <Link
+                className={`nav-link ${pathname === "/" ? "active" : ""}`}
+                to="/"
+              >
                 <i className="bi bi-house-door-fill me-1"></i>Dashboard
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/reporte">
+              <Link
+                className={`nav-link ${
+                  pathname.startsWith("/reporte") ? "active" : ""
+                }`}
+                to="/reporte"
+              >
                 <i className="bi bi-bar-chart-fill me-1"></i>Reporte
               </Link>
             </li>
