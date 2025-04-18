@@ -6,9 +6,11 @@ import { ReportsPage } from "../pages/prediccion/ReportsPage";
 import { useAuthStore } from "../hooks";
 import { useEffect } from "react";
 import { Loading } from "../components/Loading";
+import { UserPage } from "../pages/prediccion/UserPage";
 
 export const AppRouter = () => {
-  const { status, checkAuthToken } = useAuthStore();
+  const { status, checkAuthToken, user } = useAuthStore();
+  const tipo = user?.tipo || "";
 
   useEffect(() => {
     checkAuthToken();
@@ -29,6 +31,11 @@ export const AppRouter = () => {
         <>
           <Route path="/" element={<HomePage />} />
           <Route path="/reporte" element={<ReportsPage />} />
+
+          {tipo === "admin" && (
+            <Route path="/usuarios" element={<UserPage />} />
+          )}
+
           <Route path="/*" element={<Navigate to="/" />} />
         </>
       )}

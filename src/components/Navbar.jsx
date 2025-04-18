@@ -4,6 +4,7 @@ import { useAuthStore } from "../hooks";
 export const Navbar = () => {
   const { startLogout, user } = useAuthStore();
   const { pathname } = useLocation();
+  const tipo = user?.tipo || "";
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
@@ -42,6 +43,18 @@ export const Navbar = () => {
                 <i className="bi bi-bar-chart-fill me-1"></i>Reporte
               </Link>
             </li>
+            {tipo === "admin" && (
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${
+                    pathname.startsWith("/usuarios") ? "active" : ""
+                  }`}
+                  to="/usuarios"
+                >
+                  <i className="bi bi-bar-chart-fill me-1"></i>Usuarios
+                </Link>
+              </li>
+            )}
           </ul>
           <div className="d-flex align-items-center">
             <span className="text-white fw-bold me-3">
