@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useForm } from "../../../../hooks";
 import { useUserStore } from "../../../../hooks/useUserStore";
+import Swal from "sweetalert2";
 
 const fieldForm = {
-  nombre: "",
+  name: "",
   tipo: "",
-  correo: "",
+  email: "",
 };
 
 export const FormUser = () => {
@@ -18,20 +19,29 @@ export const FormUser = () => {
     tipos,
   } = useUserStore();
   const {
-    nombre,
+    name,
     tipo,
-    correo,
+    email,
     onInputChange,
     onResetForm,
     formState,
     setValues,
   } = useForm(fieldForm);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!nombre || !tipo || !correo) return;
-    startSavingUser(formState);
+    if (!name || !tipo || !email) return;
+    try {
+      await startSavingUser(formState);
+      if (activeUser) {
+        Swal.fire("Exito!", "Usuario actualizado correctamente", "success");
+      } else {
+        Swal.fire("Exito!", "Usuario registrado correctamente", "success");
+      }
+    } catch (error) {
+      Swal.fire("Error!", error.message, "error");
+    }
     handleCancelar();
   };
 
@@ -73,9 +83,9 @@ export const FormUser = () => {
             <label>Nombre</label>
             <input
               type="text"
-              name="nombre"
+              name="name"
               className="form-control"
-              value={nombre}
+              value={name}
               onChange={onInputChange}
               required
             />
@@ -101,9 +111,9 @@ export const FormUser = () => {
             <label>Correo</label>
             <input
               type="email"
-              name="correo"
+              name="email"
               className="form-control"
-              value={correo}
+              value={email}
               onChange={onInputChange}
               required
             />

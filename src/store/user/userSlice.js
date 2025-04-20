@@ -15,12 +15,16 @@ const tipos = [
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
+        isLoading: false,
         users: [],
         tipos: tipos,
         activeUser: null,
         isDelete: false,
     },
     reducers: {
+        onSetLoading: (state, { payload }) => {
+            state.isLoading = payload;
+        },
         onSetActiveUser: (state, { payload }) => {
             state.activeUser = payload;
         },
@@ -28,12 +32,14 @@ export const userSlice = createSlice({
             state.isDelete = payload;
         },
         onAddNewUser: (state, { payload }) => {
+            state.isLoading = false;
             state.users.push(payload);
             state.activeUser = null;
         },
         onUpdateUser: (state, { payload }) => {
+            state.isLoading = false;
             state.users = state.users.map(user => {
-                if (user.id === payload.id) {
+                if (user.uid === payload.uid) {
                     return payload;
                 }
                 return user;
@@ -41,12 +47,24 @@ export const userSlice = createSlice({
         },
         onDeleteUser: (state) => {
             if (state.activeUser) {
-                state.users = state.users.filter(user => user.id !== state.activeUser.id);
+                state.isLoading = false;
+                state.users = state.users.filter(user => user.uid !== state.activeUser.uid);
                 state.activeUser = null;
             }
+        },
+        onLoadUsers: (state, { payload = [] }) => {
+            state.isLoading = false;
+            state.users = payload;
+
+            /* payload.forEach(user => {
+                const exist = state.users.some(dbUser => dbUser.uid === user.uid);
+                if (!exist) {
+                    state.users.push(user);
+                }
+            }) */
         },
     },
 
 })
 
-export const { onSetActiveUser, onAddNewUser, onUpdateUser, onDeleteUser, onisDeleteUser } = userSlice.actions;
+export const { onSetActiveUser, onAddNewUser, onUpdateUser, onDeleteUser, onisDeleteUser, onLoadUsers, onSetLoading } = userSlice.actions;

@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from "react-redux"
-import { onAddNewUser, onDeleteUser, onisDeleteUser, onSetActiveUser, onUpdateUser } from "../store/user/userSlice"
+import { onAddNewUser, onDeleteUser, onisDeleteUser, onLoadUsers, onSetActiveUser, onSetLoading, onUpdateUser } from "../store/user/userSlice"
+import { prediccionApi } from "../api"
 
 export const useUserStore = () => {
   const dispatch = useDispatch()
-  const { users, activeUser, isDelete, tipos } = useSelector(state => state.user)
+  const { users, activeUser, isDelete, tipos, isLoading } = useSelector(state => state.user)
 
   const setActiveUser = (user) => {
     dispatch(onSetActiveUser(user))
@@ -14,21 +15,57 @@ export const useUserStore = () => {
   }
 
   const startSavingUser = async (user) => {
-    // TODO: llegar al backend
 
-    // Todo bien
-    if (user.id) {
-      // Actualizar
-      dispatch(onUpdateUser({ ...user }))
-    } else {
+    dispatch(onSetLoading(true))
+    try {
+      if (user.uid) {
+        // Actualizar
+        await prediccionApi.put(`/auth/${user.uid}`, {
+          displayName: user.name,
+          email: user.email,
+          tipo: user.tipo,
+        })
+        dispatch(onUpdateUser({ ...user }))
+        return
+      }
+
       // Crear
-      dispatch(onAddNewUser({ ...user, id: new Date().getTime() }))
+      const { data } = await prediccionApi.post('/auth/register', {
+        displayName: user.name,
+        email: user.email,
+        tipo: user.tipo,
+      })
+      dispatch(onAddNewUser({ ...user, uid: data.uid }))
+
+    } catch (error) {
+      dispatch(onSetLoading(false))
+      throw new Error(error.response.data.msg || 'Error al guardar el usuario')
     }
   }
 
-  const startDeletingUser = () => {
-    // TODO: llegar al backend
-    dispatch(onDeleteUser());
+  const startDeletingUser = async () => {
+    dispatch(onSetLoading(true))
+    try {
+      const { uid } = activeUser
+      await prediccionApi.delete(`/auth/${uid}`)
+      dispatch(onDeleteUser());
+    } catch (error) {
+      dispatch(onSetLoading(false))
+      throw new Error(error.response.data.msg || 'Error al eliminar el usuario')
+    }
+  }
+
+  const startLoadingUsers = async () => {
+    dispatch(onSetLoading(true))
+    try {
+      const { data } = await prediccionApi.get('/auth/users')
+      dispatch(onLoadUsers(data.usuarios))
+      console.log(data)
+
+    } catch (error) {
+      dispatch(onSetLoading(false))
+      throw new Error(error.response.data.msg || 'Error al eliminar el usuario')
+    }
   }
 
   const findTipo = (cod) => {
@@ -43,12 +80,14 @@ export const useUserStore = () => {
     hasUserSelected: !!activeUser,
     isDelete,
     tipos,
+    isLoading,
 
     //* Metodos
     setActiveUser,
     startSavingUser,
     startDeletingUser,
     isDeleteUser,
-    findTipo
+    findTipo,
+    startLoadingUsers,
   }
 } 

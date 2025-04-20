@@ -1,9 +1,16 @@
 import { useUserStore } from "../../../../hooks/useUserStore";
 import { useModalStore } from "../../../../hooks/useModalStore";
+import { useEffect } from "react";
 
 export const TablaUser = () => {
-  const { users, activeUser, setActiveUser, isDeleteUser, findTipo } =
-    useUserStore();
+  const {
+    users,
+    activeUser,
+    setActiveUser,
+    isDeleteUser,
+    findTipo,
+    startLoadingUsers,
+  } = useUserStore();
 
   const { setToogleModal } = useModalStore();
 
@@ -17,6 +24,10 @@ export const TablaUser = () => {
     setActiveUser(user);
     setToogleModal();
   };
+
+  useEffect(() => {
+    startLoadingUsers();
+  }, []);
 
   return (
     <div className="card border-secondary">
@@ -40,13 +51,13 @@ export const TablaUser = () => {
               <tbody>
                 {users.map((user) => (
                   <tr
-                    key={user.id}
+                    key={user.uid}
                     className={
-                      activeUser?.id === user.id ? "table-warning" : ""
+                      activeUser?.uid === user.uid ? "table-warning" : ""
                     }
                   >
-                    <td>{user.nombre}</td>
-                    <td>{user.correo}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
                     <td>{findTipo(user.tipo)}</td>
                     <td>
                       <button
