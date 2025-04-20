@@ -1,56 +1,47 @@
-// src/hooks/useUserStore.js
-import { useState } from "react"
-
-const mockUsuarios = [
-  {
-    id: 1,
-    nombre: "Juan Pérez",
-    tipo: "admin",
-    correo: "juan.perez@example.com",
-  },
-  {
-    id: 2,
-    nombre: "María Rodríguez",
-    tipo: "usuario",
-    correo: "maria.rodriguez@example.com",
-  },
-  {
-    id: 3,
-    nombre: "Carlos Sánchez",
-    tipo: "admin",
-    correo: "carlos.sanchez@example.com",
-  },
-  {
-    id: 4,
-    nombre: "Ana López",
-    tipo: "usuario",
-    correo: "ana.lopez@example.com",
-  },
-]
+import { useDispatch, useSelector } from "react-redux"
+import { onAddNewUser, onDeleteUser, onisDeleteUser, onSetActiveUser, onUpdateUser } from "../store/user/userSlice"
 
 export const useUserStore = () => {
-  const [usuarios, setUsuarios] = useState(mockUsuarios)
+  const dispatch = useDispatch()
+  const { users, activeUser, isDelete } = useSelector(state => state.user)
 
-  const addUsuario = (usuario) => {
-    setUsuarios([...usuarios, usuario])
+  const setActiveUser = (user) => {
+    dispatch(onSetActiveUser(user))
   }
 
-  const removeUsuario = (index) => {
-    const nuevos = [...usuarios]
-    nuevos.splice(index, 1)
-    setUsuarios(nuevos)
+  const isDeleteUser = (estado) => {
+    dispatch(onisDeleteUser(estado))
   }
 
-  const editUsuario = (index) => {
-    const usuario = usuarios[index]
-    removeUsuario(index)
-    return usuario
+  const startSavingUser = async (user) => {
+    // TODO: llegar al backend
+
+    // Todo bien
+    if (user.id) {
+      // Actualizar
+      dispatch(onUpdateUser({ ...user }))
+    } else {
+      // Crear
+      dispatch(onAddNewUser({ ...user, id: new Date().getTime() }))
+    }
+  }
+
+  const startDeletingUser = () => {
+    // TODO: llegar al backend
+    dispatch(onDeleteUser());
   }
 
   return {
-    usuarios,
-    addUsuario,
-    removeUsuario,
-    editUsuario,
+    //* Propiedades
+    users,
+    activeUser,
+    hasUserSelected: !!activeUser,
+    isDelete,
+
+    //* Metodos
+    setActiveUser,
+    startSavingUser,
+    startDeletingUser,
+    isDeleteUser
   }
 } 
