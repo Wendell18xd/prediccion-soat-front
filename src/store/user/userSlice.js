@@ -1,37 +1,22 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-const mockUsuarios = [
+const tipos = [
     {
-        id: 1,
-        nombre: "Juan Pérez",
-        tipo: "admin",
-        correo: "juan.perez@example.com",
+        cod_para: 'admin',
+        nom_para: 'Administrador',
     },
     {
-        id: 2,
-        nombre: "María Rodríguez",
-        tipo: "user",
-        correo: "maria.rodriguez@example.com",
-    },
-    {
-        id: 3,
-        nombre: "Carlos Sánchez",
-        tipo: "admin",
-        correo: "carlos.sanchez@example.com",
-    },
-    {
-        id: 4,
-        nombre: "Ana López",
-        tipo: "user",
-        correo: "ana.lopez@example.com",
+        cod_para: 'user',
+        nom_para: 'Usuario',
     },
 ]
 
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
-        users: mockUsuarios,
+        users: [],
+        tipos: tipos,
         activeUser: null,
         isDelete: false,
     },

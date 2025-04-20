@@ -6,16 +6,18 @@ import { useModalStore } from "../../hooks/useModalStore";
 import { ConfirmModal } from "../../components/ConfirmModal";
 
 export const UserPage = () => {
-  const { startDeletingUser } = useUserStore();
+  const { startDeletingUser, setActiveUser } = useUserStore();
   const { showModal, setToogleModal } = useModalStore();
 
   const handleDeleteUser = () => {
     startDeletingUser();
     setToogleModal();
+    setActiveUser(null);
   };
 
   const handelHideModal = () => {
     setToogleModal();
+    setActiveUser(null);
   };
 
   return (

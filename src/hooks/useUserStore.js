@@ -3,7 +3,7 @@ import { onAddNewUser, onDeleteUser, onisDeleteUser, onSetActiveUser, onUpdateUs
 
 export const useUserStore = () => {
   const dispatch = useDispatch()
-  const { users, activeUser, isDelete } = useSelector(state => state.user)
+  const { users, activeUser, isDelete, tipos } = useSelector(state => state.user)
 
   const setActiveUser = (user) => {
     dispatch(onSetActiveUser(user))
@@ -31,17 +31,24 @@ export const useUserStore = () => {
     dispatch(onDeleteUser());
   }
 
+  const findTipo = (cod) => {
+    const tipo = tipos.find(tipo => tipo.cod_para === cod)
+    return tipo ? tipo.nom_para : cod
+  }
+
   return {
     //* Propiedades
     users,
     activeUser,
     hasUserSelected: !!activeUser,
     isDelete,
+    tipos,
 
     //* Metodos
     setActiveUser,
     startSavingUser,
     startDeletingUser,
-    isDeleteUser
+    isDeleteUser,
+    findTipo
   }
 } 

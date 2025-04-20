@@ -2,7 +2,8 @@ import { useUserStore } from "../../../../hooks/useUserStore";
 import { useModalStore } from "../../../../hooks/useModalStore";
 
 export const TablaUser = () => {
-  const { users, activeUser, setActiveUser, isDeleteUser } = useUserStore();
+  const { users, activeUser, setActiveUser, isDeleteUser, findTipo } =
+    useUserStore();
 
   const { setToogleModal } = useModalStore();
 
@@ -46,7 +47,7 @@ export const TablaUser = () => {
                   >
                     <td>{user.nombre}</td>
                     <td>{user.correo}</td>
-                    <td>{user.tipo}</td>
+                    <td>{findTipo(user.tipo)}</td>
                     <td>
                       <button
                         className="btn btn-sm btn-warning me-2"

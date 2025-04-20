@@ -15,6 +15,7 @@ export const FormUser = () => {
     startSavingUser,
     hasUserSelected,
     isDelete,
+    tipos,
   } = useUserStore();
   const {
     nombre,
@@ -89,8 +90,11 @@ export const FormUser = () => {
               required
             >
               <option value=""></option>
-              <option value="admin">Administrador</option>
-              <option value="user">Usuario</option>
+              {tipos.map((f) => (
+                <option value={f.cod_para} key={f.cod_para}>
+                  {f.nom_para}
+                </option>
+              ))}
             </select>
           </div>
           <div className="form-group mb-3">
