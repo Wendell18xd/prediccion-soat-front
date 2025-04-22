@@ -1,11 +1,31 @@
 import DataTable from "react-data-table-component";
 import { Navbar } from "../../components/Navbar";
-import { usePredictionStore } from "../../hooks";
+import { useExportToExcel, usePredictionStore } from "../../hooks";
 import { useState } from "react";
+
+const columnsMap = {
+  Estado: "estado_emision_prediccion",
+  "Probabilidad (%)": "probabilidad",
+  Contratante: "nombre_contratante",
+  DNI: "nro_documento",
+  Placa: "placa",
+  Canal: "canal",
+  Departamento: "departamento",
+  Provincia: "provincia",
+  Distrito: "distrito",
+  Dirección: "direccion_contratante",
+  "Inicio Vigencia": "fec_ini_vig",
+  "Fin Vigencia": "fec_fin_vig",
+  "Monto Bruto": "monto_bruto",
+  Prima: "monto_prima",
+  "Medio de Pago": "medio_de_pago",
+  "Tipo Persona": "tipo_de_persona",
+};
 
 export const ReportsPage = () => {
   const { predicciones } = usePredictionStore();
   const [filterPredicciones, setFilterPredicciones] = useState(predicciones);
+  const { exportToExcel } = useExportToExcel();
 
   const columns = [
     {
@@ -123,6 +143,10 @@ export const ReportsPage = () => {
     }
   };
 
+  const handleExport = () => {
+    exportToExcel(filterPredicciones, columnsMap, "Reporte_Predicciones.xlsx");
+  };
+
   return (
     <>
       <Navbar />
@@ -130,6 +154,13 @@ export const ReportsPage = () => {
         <div className="row mb-4">
           <div className="col-md-9">
             <h3 className="mb-3">Reporte de Predicciones</h3>
+            <button
+              className="btn btn-success mt-2"
+              onClick={handleExport}
+              disabled={filterPredicciones.length === 0}
+            >
+              <i className="fas fa-file-excel me-2"></i> Exportar
+            </button>
           </div>
           <div className="col-md-3">
             <div className="card">

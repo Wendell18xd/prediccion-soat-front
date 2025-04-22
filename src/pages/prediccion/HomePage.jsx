@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { PieChartView } from "./components/PieChartView";
 import { useChart } from "./hooks/useChart";
 import { BarChartView } from "./components/BarChartView";
+import { LoadingOverlay } from "../../components/LoadingOverlay";
 
 export const HomePage = () => {
   const { isLoading, predicciones, startListPredictions, errorMessage } =
@@ -35,10 +36,6 @@ export const HomePage = () => {
       Swal.fire("Error", errorMessage, "error");
     }
   }, [errorMessage]);
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   return (
     <>
@@ -87,6 +84,8 @@ export const HomePage = () => {
           </div>
         </div>
       </div>
+      
+      <LoadingOverlay show={isLoading} />
     </>
   );
 };
