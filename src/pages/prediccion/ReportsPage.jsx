@@ -1,7 +1,8 @@
 import DataTable from "react-data-table-component";
 import { Navbar } from "../../components/Navbar";
 import { useExportToExcel, usePredictionStore } from "../../hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { LoadingOverlay } from "../../components/LoadingOverlay";
 
 const columnsMap = {
   Estado: "estado_emision_prediccion",
@@ -23,7 +24,8 @@ const columnsMap = {
 };
 
 export const ReportsPage = () => {
-  const { predicciones } = usePredictionStore();
+  const { isLoading, predicciones, startListPredictions } =
+    usePredictionStore();
   const [filterPredicciones, setFilterPredicciones] = useState(predicciones);
   const { exportToExcel } = useExportToExcel();
 
@@ -147,6 +149,16 @@ export const ReportsPage = () => {
     exportToExcel(filterPredicciones, columnsMap, "Reporte_Predicciones.xlsx");
   };
 
+  useEffect(() => {
+    if (predicciones.length === 0) {
+      startListPredictions();
+    }
+  }, []);
+
+  useEffect(() => {
+    setFilterPredicciones(predicciones);
+  }, [predicciones]);
+
   return (
     <>
       <Navbar />
@@ -188,6 +200,8 @@ export const ReportsPage = () => {
           noDataComponent="No hay datos disponibles"
         />
       </div>
+
+      <LoadingOverlay show={isLoading} />
     </>
   );
 };

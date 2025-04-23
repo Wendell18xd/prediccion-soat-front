@@ -8,11 +8,16 @@ import Swal from "sweetalert2";
 import { LoadingOverlay } from "../../components/LoadingOverlay";
 
 export const UserPage = () => {
-  const { startDeletingUser, setActiveUser, isLoading } = useUserStore();
-  const { showModal, setToogleModal } = useModalStore();
+  const {
+    startDeletingUser,
+    setActiveUser,
+    startSendResetPasswordUser,
+    isLoading,
+  } = useUserStore();
+  const { isOpen, modalType, modalProps, hideModal } = useModalStore();
 
   const handleDeleteUser = async () => {
-    setToogleModal();
+    hideModal();
     try {
       await startDeletingUser();
       Swal.fire("Exito!", "Usuario eliminado correctamente", "success");
@@ -23,7 +28,18 @@ export const UserPage = () => {
   };
 
   const handelHideModal = () => {
-    setToogleModal();
+    hideModal();
+    setActiveUser(null);
+  };
+
+  const handleSendEmail = async () => {
+    hideModal();
+    try {
+      await startSendResetPasswordUser();
+      Swal.fire("Exito!", "Correo enviado correctamente", "success");
+    } catch (error) {
+      Swal.fire("Error!", error.message, "error");
+    }
     setActiveUser(null);
   };
 
@@ -45,13 +61,29 @@ export const UserPage = () => {
       </div>
 
       {/* Modal de confirmación */}
-      <ConfirmModal
-        showModal={showModal}
-        handelHideModal={handelHideModal}
-        handleConfirm={handleDeleteUser}
-        title="Confirmar Eliminación"
-        body="¿Estás seguro de que deseas eliminar este usuario?"
-      />
+      {modalType === "deleteUser" && (
+        <ConfirmModal
+          showModal={isOpen}
+          handelHideModal={handelHideModal}
+          handleConfirm={handleDeleteUser}
+          btnColor="danger"
+          btnLabel="Eliminar"
+          title="Confirmar Eliminación"
+          body="¿Estás seguro de que deseas eliminar este usuario?"
+        />
+      )}
+
+      {modalType === "sendEmail" && (
+        <ConfirmModal
+          showModal={isOpen}
+          handelHideModal={handelHideModal}
+          handleConfirm={handleSendEmail}
+          btnColor="info"
+          btnLabel="Enviar"
+          title="Confirmar envio de correo"
+          body={`Se enviará un correo con el link de restablecimiento de contraseña al usuario seleccionado. ${modalProps.user.email}`}
+        />
+      )}
 
       <LoadingOverlay show={isLoading} />
     </>

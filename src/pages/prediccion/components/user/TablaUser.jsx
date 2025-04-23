@@ -12,7 +12,7 @@ export const TablaUser = () => {
     startLoadingUsers,
   } = useUserStore();
 
-  const { setToogleModal } = useModalStore();
+  const { showModal } = useModalStore();
 
   const handleEditar = (user) => {
     isDeleteUser(false);
@@ -22,17 +22,28 @@ export const TablaUser = () => {
   const confirmEliminar = (user) => {
     isDeleteUser(true);
     setActiveUser(user);
-    setToogleModal();
+    showModal("deleteUser", { user });
+  };
+
+  const confirmReset = (user) => {
+    isDeleteUser(true);
+    setActiveUser(user);
+    showModal("sendEmail", { user });
   };
 
   useEffect(() => {
-    startLoadingUsers();
+    if (users.length === 0) {
+      startLoadingUsers();
+    }
   }, []);
 
   return (
     <div className="card border-secondary">
-      <div className="card-header">
+      <div className="card-header d-flex justify-content-between align-items-center">
         <h3 className="mb-0">Listado de Usuarios</h3>
+        <button className="btn btn-outline-primary btn-sm rounded-5" onClick={startLoadingUsers}>
+          <i className="fas fa-sync-alt"></i>
+        </button>
       </div>
       <div className="card-body">
         {users.length === 0 ? (
@@ -62,15 +73,24 @@ export const TablaUser = () => {
                     <td>
                       <button
                         className="btn btn-sm btn-warning me-2"
+                        title="Editar Usuario"
                         onClick={() => handleEditar(user)}
                       >
                         <i className="fas fa-pencil-alt"></i>
                       </button>
                       <button
-                        className="btn btn-sm btn-danger"
+                        className="btn btn-sm btn-danger me-2"
+                        title="Eliminar Usuario"
                         onClick={() => confirmEliminar(user)}
                       >
                         <i className="fas fa-trash-alt"></i>
+                      </button>
+                      <button
+                        className="btn btn-sm btn-info"
+                        title="Enviar Correo"
+                        onClick={() => confirmReset(user)}
+                      >
+                        <i className="fas fa-envelope"></i>
                       </button>
                     </td>
                   </tr>

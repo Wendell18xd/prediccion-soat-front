@@ -1,19 +1,18 @@
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const tipos = [
     {
-        cod_para: 'admin',
-        nom_para: 'Administrador',
+        cod_para: "admin",
+        nom_para: "Administrador",
     },
     {
-        cod_para: 'user',
-        nom_para: 'Usuario',
+        cod_para: "user",
+        nom_para: "Usuario",
     },
-]
+];
 
 export const userSlice = createSlice({
-    name: 'user',
+    name: "user",
     initialState: {
         isLoading: false,
         users: [],
@@ -38,17 +37,19 @@ export const userSlice = createSlice({
         },
         onUpdateUser: (state, { payload }) => {
             state.isLoading = false;
-            state.users = state.users.map(user => {
+            state.users = state.users.map((user) => {
                 if (user.uid === payload.uid) {
                     return payload;
                 }
                 return user;
-            })
+            });
         },
         onDeleteUser: (state) => {
             if (state.activeUser) {
                 state.isLoading = false;
-                state.users = state.users.filter(user => user.uid !== state.activeUser.uid);
+                state.users = state.users.filter(
+                    (user) => user.uid !== state.activeUser.uid
+                );
                 state.activeUser = null;
             }
         },
@@ -57,14 +58,26 @@ export const userSlice = createSlice({
             state.users = payload;
 
             /* payload.forEach(user => {
-                const exist = state.users.some(dbUser => dbUser.uid === user.uid);
-                if (!exist) {
-                    state.users.push(user);
-                }
-            }) */
+                      const exist = state.users.some(dbUser => dbUser.uid === user.uid);
+                      if (!exist) {
+                          state.users.push(user);
+                      }
+                  }) */
+        },
+        onSendEmailResetPassword: (state) => {
+            state.isLoading = false;
+            state.activeUser = null;
         },
     },
+});
 
-})
-
-export const { onSetActiveUser, onAddNewUser, onUpdateUser, onDeleteUser, onisDeleteUser, onLoadUsers, onSetLoading } = userSlice.actions;
+export const {
+    onSetActiveUser,
+    onAddNewUser,
+    onUpdateUser,
+    onDeleteUser,
+    onisDeleteUser,
+    onLoadUsers,
+    onSetLoading,
+    onSendEmailResetPassword,
+} = userSlice.actions;

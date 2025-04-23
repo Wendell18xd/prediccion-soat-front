@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { onAddNewUser, onDeleteUser, onisDeleteUser, onLoadUsers, onSetActiveUser, onSetLoading, onUpdateUser } from "../store/user/userSlice"
+import { onAddNewUser, onDeleteUser, onisDeleteUser, onLoadUsers, onSendEmailResetPassword, onSetActiveUser, onSetLoading, onUpdateUser } from "../store/user/userSlice"
 import { prediccionApi } from "../api"
 
 export const useUserStore = () => {
@@ -68,6 +68,18 @@ export const useUserStore = () => {
     }
   }
 
+  const startSendResetPasswordUser = async () => {
+    dispatch(onSetLoading(true))
+    try {
+      const { email } = activeUser
+      await prediccionApi.post(`/auth/reset_password`, { email })
+      dispatch(onSendEmailResetPassword());
+    } catch (error) {
+      dispatch(onSetLoading(false))
+      throw new Error(error.response.data.msg || 'Error al enviar correo de restablecimiento de contraseña')
+    }
+  }
+
   const findTipo = (cod) => {
     const tipo = tipos.find(tipo => tipo.cod_para === cod)
     return tipo ? tipo.nom_para : cod
@@ -89,5 +101,6 @@ export const useUserStore = () => {
     isDeleteUser,
     findTipo,
     startLoadingUsers,
+    startSendResetPasswordUser,
   }
 } 

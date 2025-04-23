@@ -20,11 +20,11 @@ export const HomePage = () => {
     mapDataProvinciaChart,
   } = useChart();
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (predicciones.length === 0) {
       startListPredictions();
     }
-  }, []); */
+  }, []);
 
   useEffect(() => {
     mapDataDistritoChart(predicciones);
@@ -84,7 +84,7 @@ export const HomePage = () => {
           </div>
         </div>
       </div>
-      
+
       <LoadingOverlay show={isLoading} />
     </>
   );

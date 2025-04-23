@@ -1,19 +1,23 @@
-import { useDispatch, useSelector } from "react-redux"
-import { onToogleModal } from "../store/modal/modalSlice"
+import { useDispatch, useSelector } from "react-redux";
+import { openModal, closeModal } from "../store/modal/modalSlice";
 
 export const useModalStore = () => {
-    const dispatch = useDispatch()
-    const { showModal } = useSelector((state) => state.modal)
+    const { isOpen, modalType, modalProps } = useSelector((state) => state.modal);
+    const dispatch = useDispatch();
 
-    const setToogleModal = () => {
-        dispatch(onToogleModal(!showModal))
-    }
+    const showModal = (type, props = {}) => {
+        dispatch(openModal({ modalType: type, modalProps: props }));
+    };
+
+    const hideModal = () => {
+        dispatch(closeModal());
+    };
 
     return {
-        //* Propiedades
+        isOpen,
+        modalType,
+        modalProps,
         showModal,
-
-        //* Metodos
-        setToogleModal,
-    }
-}
+        hideModal,
+    };
+};

@@ -7,6 +7,8 @@ export const ConfirmModal = ({
   handleConfirm,
   title = "",
   body = "",
+  btnColor = "danger",
+  btnLabel = "",
 }) => {
   return (
     <Modal show={showModal} onHide={handelHideModal} centered>
@@ -18,8 +20,8 @@ export const ConfirmModal = ({
         <Button variant="secondary" onClick={handelHideModal}>
           Cancelar
         </Button>
-        <Button variant="danger" onClick={handleConfirm}>
-          Eliminar
+        <Button variant={btnColor} onClick={handleConfirm}>
+          {btnLabel}
         </Button>
       </Modal.Footer>
     </Modal>
