@@ -7,6 +7,7 @@ export const useChart = () => {
     const [dataActivaProvincia, setDataActivaProvincia] = useState([]);
     const [dataCanceladaProvincia, setDataCanceladaProvincia] = useState([]);
     const [dataProvinciaChart, setDataProvinciaChart] = useState([]);
+    const [dataCanceladaLineChart, setDataCanceladaLineChart] = useState([]);
 
     const agruparPorCampo = (predicciones, campo) => {
         const activas = {};
@@ -68,6 +69,19 @@ export const useChart = () => {
         setDataProvinciaChart(combinado);
     };
 
+    const mapDataCanceladaLineChart = (predicciones) => {
+        const canceladas = predicciones.filter(p => p.estado_emision_prediccion === "Cancelada");
+
+        const data = canceladas.map((p, index) => ({
+            id: index + 1,
+            montoBruto: parseFloat(p.monto_bruto) || 0,
+            montoPrima: parseFloat(p.monto_prima) || 0,
+            probabilidad: parseFloat(p.probabilidad).toFixed(2) || 0,
+        }));
+
+        setDataCanceladaLineChart(data);
+    };
+
     return {
         //* Propiedades
         dataActiva,
@@ -75,9 +89,11 @@ export const useChart = () => {
         dataActivaProvincia,
         dataCanceladaProvincia,
         dataProvinciaChart,
+        dataCanceladaLineChart,
 
         //* Metodos
         mapDataDistritoChart,
         mapDataProvinciaChart,
+        mapDataCanceladaLineChart,
     };
 };

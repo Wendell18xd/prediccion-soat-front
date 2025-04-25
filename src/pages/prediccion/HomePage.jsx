@@ -7,6 +7,7 @@ import { PieChartView } from "./components/PieChartView";
 import { useChart } from "./hooks/useChart";
 import { BarChartView } from "./components/BarChartView";
 import { LoadingOverlay } from "../../components/LoadingOverlay";
+import { LineChartView } from "./components/LineChartView";
 
 export const HomePage = () => {
   const { isLoading, predicciones, startListPredictions, errorMessage } =
@@ -18,6 +19,8 @@ export const HomePage = () => {
     dataProvinciaChart,
     mapDataDistritoChart,
     mapDataProvinciaChart,
+    dataCanceladaLineChart,
+    mapDataCanceladaLineChart,
   } = useChart();
 
   useEffect(() => {
@@ -29,6 +32,7 @@ export const HomePage = () => {
   useEffect(() => {
     mapDataDistritoChart(predicciones);
     mapDataProvinciaChart(predicciones);
+    mapDataCanceladaLineChart(predicciones);
   }, [predicciones]);
 
   useEffect(() => {
@@ -79,6 +83,15 @@ export const HomePage = () => {
               <div className="card-header">Provincias</div>
               <div className="card-body">
                 <BarChartView height={500} data={dataProvinciaChart} />
+              </div>
+            </div>
+          </div>
+
+          <div className="col-md-12 mb-4">
+            <div className="card border-secondary mb-3">
+              <div className="card-header">Tendencia de Cancelaciones</div>
+              <div className="card-body">
+                <LineChartView height={400} data={dataCanceladaLineChart} />
               </div>
             </div>
           </div>
