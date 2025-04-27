@@ -6,11 +6,14 @@ export const usePredictionStore = () => {
     const { predicciones, isLoading, errorMessage } = useSelector((state) => state.prediccion)
     const dispatch = useDispatch()
 
-    const startListPredictions = async () => {
+    const startListPredictions = async (tipo = "1", jsonExcel = []) => {
         dispatch(onLoad())
 
         try {
-            const { data } = await prediccionApi.get("/predicciones/soat")
+            const { data } = await prediccionApi.post("/predicciones/soat", {
+                tipo,
+                jsonExcel
+            })
             dispatch(onListPredictions(data.data))
 
         } catch (error) {

@@ -1,17 +1,19 @@
 import { useEffect } from "react";
 import { Navbar } from "../../components/Navbar";
 import { usePredictionStore } from "../../hooks";
-import { Loading } from "../../components/Loading";
 import Swal from "sweetalert2";
 import { PieChartView } from "./components/PieChartView";
 import { useChart } from "./hooks/useChart";
 import { BarChartView } from "./components/BarChartView";
 import { LoadingOverlay } from "../../components/LoadingOverlay";
 import { LineChartView } from "./components/LineChartView";
+import { useModalStore } from "../../hooks/useModalStore";
+import { ModalCargaExcel } from "./components/ModalCargaExcel";
 
 export const HomePage = () => {
   const { isLoading, predicciones, startListPredictions, errorMessage } =
     usePredictionStore();
+  const { showModal } = useModalStore();
 
   const {
     dataActiva,
@@ -47,11 +49,19 @@ export const HomePage = () => {
       <div className="m-4 p-0">
         <div className="d-flex justify-content-start mb-4">
           <button
-            className="btn btn-outline-primary btn-sm"
+            className="btn btn-info btn-sm me-2"
             onClick={startListPredictions}
           >
             <i className="fa-solid fa-rotate me-2"></i>
-            Actualizar información de clientes
+            Clientes API
+          </button>
+
+          <button
+            className="btn btn-success btn-sm"
+            onClick={() => showModal("uploadClientes")}
+          >
+            <i className="fas fa-file-excel me-2"></i>
+            Cargar Clientes
           </button>
         </div>
 
@@ -97,6 +107,8 @@ export const HomePage = () => {
           </div>
         </div>
       </div>
+
+      <ModalCargaExcel />
 
       <LoadingOverlay show={isLoading} />
     </>
