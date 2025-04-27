@@ -27,7 +27,8 @@ export const HomePage = () => {
 
   useEffect(() => {
     if (predicciones.length === 0) {
-      startListPredictions();
+      // startListPredictions();
+      //TODO: se llamara a la ultima prediccion cargada
     }
   }, []);
 

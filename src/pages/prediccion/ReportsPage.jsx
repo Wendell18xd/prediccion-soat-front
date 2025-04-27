@@ -24,7 +24,7 @@ const columnsMap = {
 };
 
 export const ReportsPage = () => {
-  const { isLoading, predicciones, startListPredictions } =
+  const { isLoading, predicciones /* , startListPredictions */ } =
     usePredictionStore();
   const [filterPredicciones, setFilterPredicciones] = useState(predicciones);
   const { exportToExcel } = useExportToExcel();
@@ -151,7 +151,8 @@ export const ReportsPage = () => {
 
   useEffect(() => {
     if (predicciones.length === 0) {
-      startListPredictions();
+      // startListPredictions();
+      //TODO: se llamara a la ultima prediccion cargada
     }
   }, []);
 
