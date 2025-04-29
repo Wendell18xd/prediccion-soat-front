@@ -10,18 +10,33 @@ export const usePredictionStore = () => {
         dispatch(onLoad())
 
         try {
-            const { data } = await prediccionApi.post("/predicciones/soat", {
-                tipo,
-                jsonExcel
+            await prediccionApi.post("/predicciones/soat", {
+                tipo: tipo,
+                jsonExcel: jsonExcel
             })
+
+            const { data } = await prediccionApi.get("/predicciones/soat/ultima-carga")
+
             dispatch(onListPredictions(data.data))
 
         } catch (error) {
             console.log(error)
-            dispatch(setErrorMessage(error.response.data.msg || 'Error al cargar las predicciones'))
+            dispatch(setErrorMessage(error?.response?.data?.msg || 'Error al cargar las predicciones'))
             setTimeout(() => {
                 dispatch(clearErrorMessage())
             }, 10)
+        }
+    }
+
+    const listUltimaPrediccion = async () => {
+        dispatch(onLoad())
+        try {
+            const { data } = await prediccionApi.get("/predicciones/soat/ultima-carga")
+            dispatch(onListPredictions(data.data))
+        } catch (error) {
+            dispatch(onLoad(false))
+            console.log(error)
+            throw new Error(error?.response?.data?.msg || 'Error al cargar las predicciones');
         }
     }
 
@@ -33,6 +48,7 @@ export const usePredictionStore = () => {
 
         //* Metodos
         startListPredictions,
+        listUltimaPrediccion,
 
     }
 }

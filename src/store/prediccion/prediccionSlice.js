@@ -9,9 +9,9 @@ export const prediccionSlice = createSlice({
         errorMessage: undefined
     },
     reducers: {
-        onLoad: (state) => {
+        onLoad: (state, { payload = true }) => {
             state.predicciones = [];
-            state.isLoading = true;
+            state.isLoading = payload;
         },
         onListPredictions: (state, { payload }) => {
             state.isLoading = false;

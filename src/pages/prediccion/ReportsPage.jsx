@@ -3,6 +3,7 @@ import { Navbar } from "../../components/Navbar";
 import { useExportToExcel, usePredictionStore } from "../../hooks";
 import { useEffect, useState } from "react";
 import { LoadingOverlay } from "../../components/LoadingOverlay";
+import Swal from "sweetalert2";
 
 const columnsMap = {
   Estado: "estado_emision_prediccion",
@@ -24,7 +25,7 @@ const columnsMap = {
 };
 
 export const ReportsPage = () => {
-  const { isLoading, predicciones /* , startListPredictions */ } =
+  const { isLoading, predicciones, listUltimaPrediccion } =
     usePredictionStore();
   const [filterPredicciones, setFilterPredicciones] = useState(predicciones);
   const { exportToExcel } = useExportToExcel();
@@ -151,8 +152,11 @@ export const ReportsPage = () => {
 
   useEffect(() => {
     if (predicciones.length === 0) {
-      // startListPredictions();
-      //TODO: se llamara a la ultima prediccion cargada
+      listUltimaPrediccion()
+        .then(() => {})
+        .catch((error) => {
+          Swal.fire("Error!", error.message, "error");
+        });
     }
   }, []);
 

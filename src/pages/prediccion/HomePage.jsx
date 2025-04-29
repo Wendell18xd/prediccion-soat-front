@@ -11,8 +11,13 @@ import { useModalStore } from "../../hooks/useModalStore";
 import { ModalCargaExcel } from "./components/ModalCargaExcel";
 
 export const HomePage = () => {
-  const { isLoading, predicciones, startListPredictions, errorMessage } =
-    usePredictionStore();
+  const {
+    isLoading,
+    predicciones,
+    startListPredictions,
+    listUltimaPrediccion,
+    errorMessage,
+  } = usePredictionStore();
   const { showModal } = useModalStore();
 
   const {
@@ -27,8 +32,11 @@ export const HomePage = () => {
 
   useEffect(() => {
     if (predicciones.length === 0) {
-      // startListPredictions();
-      //TODO: se llamara a la ultima prediccion cargada
+      listUltimaPrediccion()
+        .then(() => {})
+        .catch((error) => {
+          Swal.fire("Error!", error.message, "error");
+        });
     }
   }, []);
 
@@ -51,7 +59,7 @@ export const HomePage = () => {
         <div className="d-flex justify-content-start mb-4">
           <button
             className="btn btn-info btn-sm me-2"
-            onClick={startListPredictions}
+            onClick={() => startListPredictions()}
           >
             <i className="fa-solid fa-rotate me-2"></i>
             Clientes API
