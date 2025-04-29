@@ -1,3 +1,9 @@
+import {
+  Navbar as AppNavbar,
+  Nav,
+  Container,
+  NavDropdown,
+} from "react-bootstrap";
 import { Link, useLocation } from "react-router";
 import { useAuthStore } from "../hooks";
 
@@ -7,70 +13,61 @@ export const Navbar = () => {
   const tipo = user?.tipo || "";
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-      <div className="container-fluid">
-        <Link className="navbar-brand fw-bold" to="/">
+    <AppNavbar
+      bg="primary"
+      variant="dark"
+      expand="lg"
+      collapseOnSelect
+      className="shadow-sm"
+    >
+      <Container fluid>
+        <AppNavbar.Brand as={Link} to="/" className="fw-bold">
           <i className="bi bi-shield-fill-check me-2"></i>Predicción SOAT
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarColor01"
-          aria-controls="navbarColor01"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarColor01">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link
-                className={`nav-link ${pathname === "/" ? "active" : ""}`}
-                to="/"
-              >
-                <i className="bi bi-house-door-fill me-1"></i>Dashboard
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                className={`nav-link ${
-                  pathname.startsWith("/reporte") ? "active" : ""
-                }`}
-                to="/reporte"
-              >
-                <i className="bi bi-bar-chart-fill me-1"></i>Reporte
-              </Link>
-            </li>
+        </AppNavbar.Brand>
+        <AppNavbar.Toggle aria-controls="main-navbar" />
+        <AppNavbar.Collapse id="main-navbar">
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/" active={pathname === "/"}>
+              <i className="fa-solid fa-chart-line me-2"></i>Dashboard
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/reporte"
+              active={pathname.startsWith("/reporte")}
+            >
+              <i className="fa-regular fa-file-lines me-2"></i>Reporte
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/historial"
+              active={pathname.startsWith("/historial")}
+            >
+              <i className="fa-regular fa-calendar me-2"></i>Historial
+            </Nav.Link>
             {tipo === "admin" && (
-              <li className="nav-item">
-                <Link
-                  className={`nav-link ${
-                    pathname.startsWith("/usuarios") ? "active" : ""
-                  }`}
-                  to="/usuarios"
-                >
-                  <i className="bi bi-bar-chart-fill me-1"></i>Usuarios
-                </Link>
-              </li>
+              <Nav.Link
+                as={Link}
+                to="/usuarios"
+                active={pathname.startsWith("/usuarios")}
+              >
+                <i className="fa-solid fa-users me-2"></i>Usuarios
+              </Nav.Link>
             )}
-          </ul>
-          <div className="d-flex align-items-center">
+          </Nav>
+          <Nav className="align-items-center">
             <span className="text-white fw-bold me-3">
               <i className="bi bi-person-circle me-1"></i>
               {user.name}
             </span>
             <button
               className="btn btn-outline-danger btn-sm"
-              type="button"
               onClick={startLogout}
             >
               <i className="fa-solid fa-right-from-bracket me-2"></i>Salir
             </button>
-          </div>
-        </div>
-      </div>
-    </nav>
+          </Nav>
+        </AppNavbar.Collapse>
+      </Container>
+    </AppNavbar>
   );
 };

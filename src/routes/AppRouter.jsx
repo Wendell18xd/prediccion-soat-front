@@ -7,6 +7,7 @@ import { useAuthStore } from "../hooks";
 import { useEffect } from "react";
 import { Loading } from "../components/Loading";
 import { UserPage } from "../pages/prediccion/UserPage";
+import { HistorialPage } from "../pages/prediccion/HistorialPage";
 
 export const AppRouter = () => {
   const { status, checkAuthToken, user } = useAuthStore();
@@ -31,6 +32,7 @@ export const AppRouter = () => {
         <>
           <Route path="/" element={<HomePage />} />
           <Route path="/reporte" element={<ReportsPage />} />
+          <Route path="/historial" element={<HistorialPage />} />
 
           {tipo === "admin" && (
             <Route path="/usuarios" element={<UserPage />} />
