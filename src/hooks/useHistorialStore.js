@@ -13,9 +13,7 @@ export const useHistorialStore = () => {
             dispatch(onListHistoriales(data.data))
         } catch (error) {
             dispatch(onLoad(false))
-            if (error.response.status !== 401) {
-                throw new Error(error?.response?.data?.msg || 'Error al cargar las predicciones');
-            }
+            throw new Error(error?.response?.data?.msg || 'Error al cargar las predicciones');
         }
     }
 

@@ -7,6 +7,7 @@ const fieldForm = {
   name: "",
   tipo: "",
   email: "",
+  recibeCorreo: false,
 };
 
 export const FormUser = () => {
@@ -18,10 +19,12 @@ export const FormUser = () => {
     isDelete,
     tipos,
   } = useUserStore();
+
   const {
     name,
     tipo,
     email,
+    recibeCorreo,
     onInputChange,
     onResetForm,
     formState,
@@ -32,6 +35,7 @@ export const FormUser = () => {
     e.preventDefault();
 
     if (!name || !tipo || !email) return;
+
     try {
       await startSavingUser(formState);
       if (activeUser) {
@@ -42,6 +46,7 @@ export const FormUser = () => {
     } catch (error) {
       Swal.fire("Error!", error.message, "error");
     }
+
     handleCancelar();
   };
 
@@ -90,6 +95,7 @@ export const FormUser = () => {
               required
             />
           </div>
+
           <div className="form-group mb-3">
             <label>Tipo</label>
             <select
@@ -107,6 +113,7 @@ export const FormUser = () => {
               ))}
             </select>
           </div>
+
           <div className="form-group mb-3">
             <label>Correo</label>
             <input
@@ -118,6 +125,28 @@ export const FormUser = () => {
               required
             />
           </div>
+
+          <div className="form-check mb-4">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="recibeCorreo"
+              id="recibeCorreo"
+              checked={recibeCorreo}
+              onChange={(e) =>
+                onInputChange({
+                  target: {
+                    name: "recibeCorreo",
+                    value: e.target.checked,
+                  },
+                })
+              }
+            />
+            <label className="form-check-label" htmlFor="recibeCorreo">
+              Recibe correo predicciones
+            </label>
+          </div>
+
           <div className="d-flex gap-2">
             <button type="submit" className="btn btn-primary">
               {hasUserSelected && !isDelete ? "Editar" : "Registrar"}

@@ -38,6 +38,7 @@ export const useAuthStore = () => {
             localStorage.removeItem('token')
             localStorage.removeItem('token-init-date')
             dispatch(onLogout())
+            throw new Error("Token inválido o expirado");
         }
     }
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getEnvVariables } from "../helpers";
-import { triggerLogout } from "../helpers/authRedirectHelper";
+import { triggerCheckToken } from "../helpers/authRedirectHelper";
 
 const { VITE_API_URL } = getEnvVariables();
 
@@ -9,22 +9,21 @@ const prediccionApi = axios.create({
 });
 
 // Interceptor de solicitudes: agrega el token
-prediccionApi.interceptors.request.use((config) => {
-    config.headers = {
-        ...config.headers,
-        "x-token": localStorage.getItem("token") || "",
-    };
-
-    return config;
-});
-
-// Interceptor de respuestas: maneja errores globales
-prediccionApi.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        if (error.response?.status === 401) {
-            triggerLogout();
+prediccionApi.interceptors.request.use(
+    async (config) => {
+        // Excepción para la ruta de renovación de token
+        if (!config.url.includes("/auth/renew")) {
+            await triggerCheckToken(); // Espera antes de continuar
         }
+
+        config.headers = {
+            ...config.headers,
+            "x-token": localStorage.getItem("token") || "",
+        };
+
+        return config;
+    },
+    (error) => {
         return Promise.reject(error);
     }
 );

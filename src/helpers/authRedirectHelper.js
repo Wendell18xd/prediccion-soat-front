@@ -1,10 +1,11 @@
-// authRedirectHelper.js
 let logoutCallback = null;
 
-export const setLogoutCallback = (cb) => {
+export const setLogoutCallback = async (cb) => {
     logoutCallback = cb;
 };
 
-export const triggerLogout = () => {
-    if (logoutCallback) logoutCallback();
+export const triggerCheckToken = async () => {
+    if (logoutCallback) {
+        await logoutCallback();
+    }
 };
