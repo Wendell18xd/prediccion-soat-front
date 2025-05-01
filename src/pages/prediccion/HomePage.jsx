@@ -17,6 +17,7 @@ export const HomePage = () => {
     startListPredictions,
     listUltimaPrediccion,
     errorMessage,
+    codeSelected,
   } = usePredictionStore();
   const { showModal } = useModalStore();
 
@@ -56,6 +57,12 @@ export const HomePage = () => {
     <>
       <Navbar />
       <div className="m-4 p-0">
+        <div className="row">
+          <div className="col-md-9 mb-4">
+            <h3 className="mb-3">Dashboard de Predicciones - {codeSelected}</h3>
+          </div>
+        </div>
+
         <div className="d-flex justify-content-start mb-4">
           <button
             className="btn btn-info btn-sm me-2"

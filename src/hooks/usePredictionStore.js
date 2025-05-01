@@ -4,7 +4,7 @@ import { clearErrorMessage, onListPredictions, onLoad, setErrorMessage } from ".
 import { onLoad as onLoadHistorial } from "../store/historial/historialSlice"
 
 export const usePredictionStore = () => {
-    const { predicciones, isLoading, errorMessage } = useSelector((state) => state.prediccion)
+    const { predicciones, isLoading, errorMessage, codeSelected } = useSelector((state) => state.prediccion)
     const dispatch = useDispatch()
 
     const startListPredictions = async (tipo = "1", jsonExcel = []) => {
@@ -19,7 +19,7 @@ export const usePredictionStore = () => {
 
             const { data } = await prediccionApi.get("/predicciones/soat/ultima-carga")
 
-            dispatch(onListPredictions(data.data))
+            dispatch(onListPredictions({ datos: data.data, codigo: data.codigo }))
 
         } catch (error) {
             console.log(error)
@@ -34,7 +34,7 @@ export const usePredictionStore = () => {
         dispatch(onLoad())
         try {
             const { data } = await prediccionApi.get("/predicciones/soat/ultima-carga")
-            dispatch(onListPredictions(data.data))
+            dispatch(onListPredictions({ datos: data.data, codigo: data.codigo }))
         } catch (error) {
             dispatch(onLoad(false))
             console.log(error)
@@ -46,7 +46,7 @@ export const usePredictionStore = () => {
         dispatch(onLoad())
         try {
             const { data } = await prediccionApi.get(`/predicciones/soat/${codigo}`)
-            dispatch(onListPredictions(data.data))
+            dispatch(onListPredictions({ datos: data.data, codigo: data.codigo }))
         } catch (error) {
             dispatch(onLoad(false))
             console.log(error)
@@ -59,6 +59,7 @@ export const usePredictionStore = () => {
         isLoading,
         predicciones,
         errorMessage,
+        codeSelected,
 
         //* Metodos
         startListPredictions,

@@ -19,9 +19,21 @@ const customStyles = {
 
 export const HistorialPage = () => {
   const { historiales, isLoading, startListHistorial } = useHistorialStore();
-  const { isLoading: isLoadPred, listPrediccionWithCodigo } =
-    usePredictionStore();
+  const {
+    isLoading: isLoadPred,
+    listPrediccionWithCodigo,
+    codeSelected,
+  } = usePredictionStore();
   const navigate = useNavigate();
+
+  const conditionalRowStyles = [
+    {
+      when: (row) => row.codigo === codeSelected,
+      style: {
+        backgroundColor: "#fff3cd", // color de bootstrap bg-warning
+      },
+    },
+  ];
 
   const columns = [
     {
@@ -106,6 +118,7 @@ export const HistorialPage = () => {
           fixedHeaderScrollHeight="calc(100vh - 335px)"
           noDataComponent="No hay datos disponibles"
           customStyles={customStyles}
+          conditionalRowStyles={conditionalRowStyles}
         />
       </div>
       <LoadingOverlay show={isLoading || isLoadPred} />

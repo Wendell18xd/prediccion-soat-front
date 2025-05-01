@@ -25,7 +25,7 @@ const columnsMap = {
 };
 
 export const ReportsPage = () => {
-  const { isLoading, predicciones, listUltimaPrediccion } =
+  const { isLoading, predicciones, listUltimaPrediccion, codeSelected } =
     usePredictionStore();
   const [filterPredicciones, setFilterPredicciones] = useState(predicciones);
   const { exportToExcel } = useExportToExcel();
@@ -170,7 +170,7 @@ export const ReportsPage = () => {
       <div className="m-4">
         <div className="row mb-4">
           <div className="col-md-9">
-            <h3 className="mb-3">Reporte de Predicciones</h3>
+            <h3 className="mb-3">Reporte de Predicciones - {codeSelected}</h3>
             <button
               className="btn btn-success mt-2"
               onClick={handleExport}
