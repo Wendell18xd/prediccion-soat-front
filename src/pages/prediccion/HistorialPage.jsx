@@ -43,7 +43,7 @@ export const HistorialPage = () => {
       wrap: false,
     },
     {
-      name: "Porcentaje (%)",
+      name: "Precision (%)",
       selector: (row) => parseFloat(row.porcentaje).toFixed(2),
       sortable: true,
       wrap: false,

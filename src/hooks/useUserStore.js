@@ -39,7 +39,9 @@ export const useUserStore = () => {
 
     } catch (error) {
       dispatch(onSetLoading(false))
-      throw new Error(error.response.data.msg || 'Error al guardar el usuario')
+      if (error.response.status !== 401) {
+        throw new Error(error.response.data.msg || 'Error al guardar el usuario')
+      }
     }
   }
 
@@ -51,7 +53,9 @@ export const useUserStore = () => {
       dispatch(onDeleteUser());
     } catch (error) {
       dispatch(onSetLoading(false))
-      throw new Error(error.response.data.msg || 'Error al eliminar el usuario')
+      if (error.response.status !== 401) {
+        throw new Error(error.response.data.msg || 'Error al eliminar el usuario')
+      }
     }
   }
 
@@ -64,7 +68,9 @@ export const useUserStore = () => {
 
     } catch (error) {
       dispatch(onSetLoading(false))
-      throw new Error(error.response.data.msg || 'Error al eliminar el usuario')
+      if (error.response.status !== 401) {
+        throw new Error(error.response.data.msg || 'Error al eliminar el usuario')
+      }
     }
   }
 
@@ -76,7 +82,9 @@ export const useUserStore = () => {
       dispatch(onSendEmailResetPassword());
     } catch (error) {
       dispatch(onSetLoading(false))
-      throw new Error(error.response.data.msg || 'Error al enviar correo de restablecimiento de contraseña')
+      if (error.response.status !== 401) {
+        throw new Error(error.response.data.msg || 'Error al enviar correo de restablecimiento de contraseña')
+      }
     }
   }
 
