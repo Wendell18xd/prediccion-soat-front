@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, useAuthStore } from "../../hooks";
 import Swal from "sweetalert2";
 
@@ -9,11 +9,30 @@ const loginFormFields = {
 
 export const LoginPage = () => {
   const { isLoading, startLogin, errorMessage } = useAuthStore();
+  const [rememberMe, setRememberMe] = useState(false);
 
-  const { email, password, onInputChange } = useForm(loginFormFields);
+  const { email, password, onInputChange, setValues } =
+    useForm(loginFormFields);
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("email");
+    const savedPassword = localStorage.getItem("password");
+    if (savedEmail && savedPassword) {
+      setValues({ email: savedEmail, password: savedPassword });
+      setRememberMe(true);
+    }
+  }, []);
 
   const loginSubmit = (event) => {
     event.preventDefault();
+    if (rememberMe) {
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", password);
+    } else {
+      localStorage.removeItem("email");
+      localStorage.removeItem("password");
+    }
+
     startLogin({ email, password });
   };
 
@@ -70,6 +89,8 @@ export const LoginPage = () => {
               type="checkbox"
               id="rememberMe"
               name="rememberMe"
+              checked={rememberMe}
+              onChange={() => setRememberMe(!rememberMe)}
             />
             <label className="form-check-label" htmlFor="rememberMe">
               Recordar correo y contraseña

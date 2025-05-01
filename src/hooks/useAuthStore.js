@@ -35,13 +35,15 @@ export const useAuthStore = () => {
             dispatch(onLogin({ name: data.name, uid: data.uid, tipo: data.tipo }))
         } catch (error) {
             console.log(error)
-            localStorage.clear()
+            localStorage.removeItem('token')
+            localStorage.removeItem('token-init-date')
             dispatch(onLogout())
         }
     }
 
     const startLogout = () => {
-        localStorage.clear()
+        localStorage.removeItem('token')
+        localStorage.removeItem('token-init-date')
         dispatch(onLogout())
     }
 
