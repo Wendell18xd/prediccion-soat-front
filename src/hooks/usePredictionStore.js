@@ -19,8 +19,9 @@ export const usePredictionStore = () => {
 
             const { data } = await prediccionApi.get("/predicciones/soat/ultima-carga")
 
-            dispatch(onListPredictions({ datos: data.data, codigo: data.codigo }))
+            prediccionApi.get("/predicciones/soat/enviar_correos")
 
+            dispatch(onListPredictions({ datos: data.data, codigo: data.codigo }))
         } catch (error) {
             console.log(error)
             dispatch(setErrorMessage(error?.response?.data?.msg || 'Error al cargar las predicciones'))
