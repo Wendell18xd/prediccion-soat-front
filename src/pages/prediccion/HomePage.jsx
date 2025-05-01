@@ -88,7 +88,11 @@ export const HomePage = () => {
                 Distritos con posible renovación
               </div>
               <div className="card-body">
-                <PieChartView height={300} data={dataActiva} />
+                <PieChartView
+                  height={300}
+                  data={dataActiva}
+                  name="Distritos con posible renovación"
+                />
               </div>
             </div>
           </div>
@@ -99,7 +103,11 @@ export const HomePage = () => {
                 Distritos con posible no renovación
               </div>
               <div className="card-body">
-                <PieChartView height={300} data={dataCancelada} />
+                <PieChartView
+                  height={300}
+                  data={dataCancelada}
+                  name="Distritos con posible no renovación"
+                />
               </div>
             </div>
           </div>
@@ -108,7 +116,11 @@ export const HomePage = () => {
             <div className="card border-secondary mb-3">
               <div className="card-header">Provincias</div>
               <div className="card-body">
-                <BarChartView height={500} data={dataProvinciaChart} />
+                <BarChartView
+                  height={500}
+                  data={dataProvinciaChart}
+                  name="Provincias"
+                />
               </div>
             </div>
           </div>
@@ -117,7 +129,11 @@ export const HomePage = () => {
             <div className="card border-secondary mb-3">
               <div className="card-header">Tendencia de Cancelaciones</div>
               <div className="card-body">
-                <LineChartView height={400} data={dataCanceladaLineChart} />
+                <LineChartView
+                  height={400}
+                  data={dataCanceladaLineChart}
+                  name="Tendencia de Cancelaciones"
+                />
               </div>
             </div>
           </div>
