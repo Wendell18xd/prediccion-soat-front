@@ -32,7 +32,6 @@ export const LoginPage = () => {
       localStorage.removeItem("email");
       localStorage.removeItem("password");
     }
-
     startLogin({ email, password });
   };
 

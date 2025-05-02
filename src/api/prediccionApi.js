@@ -12,7 +12,7 @@ const prediccionApi = axios.create({
 prediccionApi.interceptors.request.use(
     async (config) => {
         // Excepción para la ruta de renovación de token
-        if (!config.url.includes("/auth/renew")) {
+        if (!config.url.includes("/auth/renew") && !config.url.includes("/auth/login")) {
             await triggerCheckToken(); // Espera antes de continuar
         }
 
