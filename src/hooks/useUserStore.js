@@ -24,6 +24,7 @@ export const useUserStore = () => {
           displayName: user.name,
           email: user.email,
           tipo: user.tipo,
+          documento: user.documento,
           recibeCorreo: user.recibeCorreo,
         })
         dispatch(onUpdateUser({ ...user }))
@@ -35,6 +36,7 @@ export const useUserStore = () => {
         displayName: user.name,
         email: user.email,
         tipo: user.tipo,
+        documento: user.documento,
         recibeCorreo: user.recibeCorreo,
       })
       dispatch(onAddNewUser({ ...user, uid: data.uid }))

@@ -4,6 +4,7 @@ import { useUserStore } from "../../../../hooks/useUserStore";
 import Swal from "sweetalert2";
 
 const fieldForm = {
+  documento: "",
   name: "",
   tipo: "",
   email: "",
@@ -21,6 +22,7 @@ export const FormUser = () => {
   } = useUserStore();
 
   const {
+    documento,
     name,
     tipo,
     email,
@@ -43,11 +45,10 @@ export const FormUser = () => {
       } else {
         Swal.fire("Exito!", "Usuario registrado correctamente", "success");
       }
+      handleCancelar();
     } catch (error) {
       Swal.fire("Error!", error.message, "error");
     }
-
-    handleCancelar();
   };
 
   const handleCancelar = () => {
@@ -83,7 +84,19 @@ export const FormUser = () => {
         </h3>
       </div>
       <div className="card-body">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} autoComplete="off">
+          <div className="form-group mb-3">
+            <label>Nro Documento</label>
+            <input
+              type="text"
+              name="documento"
+              className="form-control"
+              value={documento}
+              onChange={onInputChange}
+              required
+            />
+          </div>
+
           <div className="form-group mb-3">
             <label>Nombre</label>
             <input

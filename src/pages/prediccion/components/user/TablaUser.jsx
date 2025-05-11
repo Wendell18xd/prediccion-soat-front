@@ -53,6 +53,7 @@ export const TablaUser = () => {
             <table className="table table-striped table-hover">
               <thead>
                 <tr>
+                  <th>Nro Documento</th>
                   <th>Nombre</th>
                   <th>Correo</th>
                   <th>Tipo</th>
@@ -67,6 +68,7 @@ export const TablaUser = () => {
                       activeUser?.uid === user.uid ? "table-warning" : ""
                     }
                   >
+                    <td>{user.documento}</td>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{findTipo(user.tipo)}</td>
