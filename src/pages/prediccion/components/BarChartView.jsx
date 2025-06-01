@@ -9,9 +9,17 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { useExportToExcel } from "../../../hooks";
+
+const columnsMap = {
+  Provincia: "provincia",
+  "Probabilidad Activa(%)": "riesgoActiva",
+  "Probabilidad Cancelada(%)": "riesgoCancelada",
+};
 
 export const BarChartView = ({ height, data, name = "grafico" }) => {
   const chartRef = useRef(null);
+  const { exportToExcel } = useExportToExcel();
 
   const handleExport = async () => {
     const canvas = await html2canvas(chartRef.current);
@@ -19,6 +27,10 @@ export const BarChartView = ({ height, data, name = "grafico" }) => {
     link.download = name + ".png";
     link.href = canvas.toDataURL("image/png");
     link.click();
+  };
+
+  const handleExportExcel = () => {
+    exportToExcel(data, columnsMap, name + ".xlsx");
   };
 
   return (
@@ -49,6 +61,13 @@ export const BarChartView = ({ height, data, name = "grafico" }) => {
         title="Descargar gráfico como imagen"
       >
         <i className="fas fa-download"></i>
+      </button>
+      <button
+        onClick={handleExportExcel}
+        className="btn btn-sm btn-outline-success mt-2 ms-2"
+        title="Exportar datos del grafico"
+      >
+        <i className="fas fa-file-excel"></i>
       </button>
     </>
   );
