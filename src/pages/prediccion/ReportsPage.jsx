@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 const columnsMap = {
   Estado: "estado_emision_prediccion",
   "Probabilidad (%)": "probabilidad",
+  "Uso del auto": "uso_del_auto",
   Contratante: "nombre_contratante",
   DNI: "nro_documento",
   Placa: "placa",
@@ -49,6 +50,12 @@ export const ReportsPage = () => {
     {
       name: "Probabilidad (%)",
       selector: (row) => parseFloat(row.probabilidad).toFixed(2),
+      sortable: true,
+      wrap: false,
+    },
+    {
+      name: "Uso del auto",
+      selector: (row) => row.uso_del_auto,
       sortable: true,
       wrap: false,
     },

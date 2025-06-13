@@ -8,6 +8,7 @@ export const useChart = () => {
     const [dataCanceladaProvincia, setDataCanceladaProvincia] = useState([]);
     const [dataProvinciaChart, setDataProvinciaChart] = useState([]);
     const [dataCanceladaLineChart, setDataCanceladaLineChart] = useState([]);
+    const [dataUsoDelAutoChart, setDataUsoDelAutoChart] = useState([]);
 
     const agruparPorCampo = (predicciones, campo) => {
         const activas = {};
@@ -66,6 +67,8 @@ export const useChart = () => {
             };
         });
 
+        console.log(combinado)
+
         setDataProvinciaChart(combinado);
     };
 
@@ -82,6 +85,32 @@ export const useChart = () => {
         setDataCanceladaLineChart(data);
     };
 
+    const mapDataUsoDelAutoChart = (predicciones) => {
+        // Agrupar por uso_del_auto, separando activas y canceladas
+        const { activas, canceladas } = agruparPorCampo(predicciones, "uso_del_auto");
+
+        // Obtener todos los tipos de uso presentes
+        const usos = new Set([
+            ...activas.map((a) => a.nombre),
+            ...canceladas.map((c) => c.nombre),
+        ]);
+
+        // Combinar en un solo array
+        const combinado = Array.from(usos).map((uso) => {
+            const activa = activas.find((a) => a.nombre === uso);
+            const cancelada = canceladas.find((c) => c.nombre === uso);
+            return {
+                uso_del_auto: uso,
+                riesgoActiva: activa?.riesgo || 0,
+                riesgoCancelada: cancelada?.riesgo || 0,
+            };
+        });
+
+        console.log(combinado);
+
+        setDataUsoDelAutoChart(combinado);
+    };
+
     return {
         //* Propiedades
         dataActiva,
@@ -90,10 +119,12 @@ export const useChart = () => {
         dataCanceladaProvincia,
         dataProvinciaChart,
         dataCanceladaLineChart,
+        dataUsoDelAutoChart,
 
         //* Metodos
         mapDataDistritoChart,
         mapDataProvinciaChart,
         mapDataCanceladaLineChart,
+        mapDataUsoDelAutoChart,
     };
 };

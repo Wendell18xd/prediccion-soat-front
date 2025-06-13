@@ -10,6 +10,18 @@ import { LineChartView } from "./components/LineChartView";
 import { useModalStore } from "../../hooks/useModalStore";
 import { ModalCargaExcel } from "./components/ModalCargaExcel";
 
+const columnsMapProvincia = {
+  Provincia: "provincia",
+  "Probabilidad Activa(%)": "riesgoActiva",
+  "Probabilidad Cancelada(%)": "riesgoCancelada",
+};
+
+const columnsMapUsoAuto = {
+  "Uso del Auto": "uso_del_auto",
+  "Probabilidad Activa(%)": "riesgoActiva",
+  "Probabilidad Cancelada(%)": "riesgoCancelada",
+};
+
 export const HomePage = () => {
   const {
     isLoading,
@@ -28,7 +40,9 @@ export const HomePage = () => {
     mapDataDistritoChart,
     mapDataProvinciaChart,
     dataCanceladaLineChart,
+    dataUsoDelAutoChart,
     mapDataCanceladaLineChart,
+    mapDataUsoDelAutoChart,
   } = useChart();
 
   useEffect(() => {
@@ -45,6 +59,7 @@ export const HomePage = () => {
     mapDataDistritoChart(predicciones);
     mapDataProvinciaChart(predicciones);
     mapDataCanceladaLineChart(predicciones);
+    mapDataUsoDelAutoChart(predicciones);
   }, [predicciones]);
 
   useEffect(() => {
@@ -112,7 +127,7 @@ export const HomePage = () => {
             </div>
           </div>
 
-          <div className="col-md-12 mb-4">
+          <div className="col-md-6 mb-4">
             <div className="card border-secondary mb-3">
               <div className="card-header">Provincias</div>
               <div className="card-body">
@@ -120,6 +135,33 @@ export const HomePage = () => {
                   height={500}
                   data={dataProvinciaChart}
                   name="Provincias"
+                  label1="Posible renovación"
+                  label2="Posible no renovación"
+                  key0="provincia"
+                  key1="riesgoActiva"
+                  key2="riesgoCancelada"
+                  columnsMap={columnsMapProvincia}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="col-md-6 mb-4">
+            <div className="card border-secondary mb-3">
+              <div className="card-header">
+                Uso del auto con posible no renovación
+              </div>
+              <div className="card-body">
+                <BarChartView
+                  height={500}
+                  data={dataUsoDelAutoChart}
+                  name="Uso del auto"
+                  label1="Personal"
+                  label2="Comercial"
+                  key0="uso_del_auto"
+                  key1="riesgoActiva"
+                  key2="riesgoCancelada"
+                  columnsMap={columnsMapUsoAuto}
                 />
               </div>
             </div>

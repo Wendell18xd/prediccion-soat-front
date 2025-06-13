@@ -11,13 +11,17 @@ import {
 } from "recharts";
 import { useExportToExcel } from "../../../hooks";
 
-const columnsMap = {
-  Provincia: "provincia",
-  "Probabilidad Activa(%)": "riesgoActiva",
-  "Probabilidad Cancelada(%)": "riesgoCancelada",
-};
-
-export const BarChartView = ({ height, data, name = "grafico" }) => {
+export const BarChartView = ({
+  height,
+  data,
+  name = "grafico",
+  label1 = "",
+  label2 = "",
+  key0 = "",
+  key1 = "",
+  key2 = "",
+  columnsMap,
+}) => {
   const chartRef = useRef(null);
   const { exportToExcel } = useExportToExcel();
 
@@ -38,20 +42,12 @@ export const BarChartView = ({ height, data, name = "grafico" }) => {
       <div ref={chartRef}>
         <ResponsiveContainer width="100%" height={height}>
           <BarChart data={data}>
-            <XAxis dataKey="provincia" />
+            <XAxis dataKey={key0} />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar
-              dataKey="riesgoActiva"
-              fill="#0d6efd"
-              name="Posible renovación"
-            />
-            <Bar
-              dataKey="riesgoCancelada"
-              fill="#dc3545"
-              name="Posible no renovación"
-            />
+            <Bar dataKey={key1} fill="#0d6efd" name={label1} />
+            <Bar dataKey={key2} fill="#dc3545" name={label2} />
           </BarChart>
         </ResponsiveContainer>
       </div>
