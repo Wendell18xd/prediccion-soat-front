@@ -156,8 +156,8 @@ export const HomePage = () => {
                   height={500}
                   data={dataUsoDelAutoChart}
                   name="Uso del auto"
-                  label1="Personal"
-                  label2="Comercial"
+                  label1="Posible renovación"
+                  label2="Posible no renovación"
                   key0="uso_del_auto"
                   key1="riesgoActiva"
                   key2="riesgoCancelada"
